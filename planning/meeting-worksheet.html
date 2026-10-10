@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Website Discovery Worksheet</title>
+<style>
+  @page { size: letter; margin: 0.55in 0.6in; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0 auto;
+    max-width: 7.3in;
+    font: 8.5pt/1.45 "SF Mono", Menlo, "IBM Plex Mono", monospace;
+    color: #111;
+    background: #fff;
+  }
+  @media screen { body { padding: 0.5in 0.25in; } }
+
+  /* Title block, drawing-sheet style */
+  .title-block { display: grid; grid-template-columns: 2fr 1fr 1fr; border: 1px solid #111; margin-bottom: 10px; }
+  .title-block > div { padding: 6px 8px; border-right: 1px solid #111; }
+  .title-block > div:last-child { border-right: 0; }
+  .title-block .row2 { grid-column: 1 / -1; display: grid; grid-template-columns: 2fr 1fr 1fr; border-top: 1px solid #111; padding: 0; }
+  .title-block .row2 > div { padding: 6px 8px 14px; border-right: 1px solid #111; }
+  .title-block .row2 > div:last-child { border-right: 0; }
+  .k { display: block; font-size: 6.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: #777; }
+  .project { font-size: 12pt; letter-spacing: 0.02em; }
+  .legend { font-size: 7pt; color: #777; margin: 0 0 6px; letter-spacing: 0.04em; }
+
+  section { margin-top: 32px; }
+  h2 {
+    display: flex; gap: 10px; align-items: baseline;
+    font-size: 8pt; font-weight: 500; line-height: 1;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    margin: 0 0 10px; padding-bottom: 5px;
+    border-bottom: 1px solid #111;
+    break-after: avoid;
+  }
+  h2 .n { color: #999; }
+  h2 .feeds { margin-left: auto; font-size: 6.5pt; letter-spacing: 0.12em; color: #888; }
+  .intro { color: #666; margin: -4px 0 10px; }
+
+  .q { display: grid; grid-template-columns: 42px 1fr; margin: 0 0 9px; break-inside: avoid; }
+  .id { color: #999; }
+  .req::after { content: " *"; }
+  .hint { color: #888; }
+  .space { grid-column: 2; }
+
+  .options { grid-column: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px 12px; margin-top: 4px; color: #333; }
+  .options span::before { content: "[ ] "; color: #999; }
+
+  table { grid-column: 2; width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
+  th { font-weight: 400; font-size: 6.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: #777; text-align: left; padding: 3px 6px; border-bottom: 1px solid #111; }
+  td { border-bottom: 0.5px solid #c8c8c8; border-right: 0.5px solid #e2e2e2; height: 22px; padding: 3px 6px; color: #777; vertical-align: top; }
+  td:last-child { border-right: 0; }
+  td.tall { height: 58px; }
+
+  /* Hand-off list */
+  .handoff { break-before: page; }
+  .item { display: grid; grid-template-columns: 42px 1fr; margin-bottom: 8px; break-inside: avoid; }
+  .item .box::before { content: "[ ]"; color: #999; }
+  .item .spec { color: #777; }
+  .notes {
+    border: 0.5px solid #c8c8c8; height: 2.6in; margin-top: 8px;
+    background-image: linear-gradient(#e6e6e6 0.5px, transparent 0.5px), linear-gradient(90deg, #e6e6e6 0.5px, transparent 0.5px);
+    background-size: 0.2in 0.2in;
+  }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <div><span class="k">Project</span><span class="project">McKelvey Fine Art Services</span></div>
+  <div><span class="k">Sheet</span>Site Discovery</div>
+  <div><span class="k">Rev</span>05</div>
+  <div class="row2">
+    <div><span class="k">Attendees</span></div>
+    <div><span class="k">Date</span></div>
+    <div><span class="k">Page</span></div>
+  </div>
+</div>
+<p class="legend">* = needed to build the site &nbsp;·&nbsp; → = where the answer shows up on the site &nbsp;·&nbsp; last page = files and materials to get from him<br>"Not sure" is always a fine answer. Circle it and move on.</p>
+
+<main id="worksheet"></main>
+
+<script>
+  // Section: [title, feeds, intro, questions]
+  // Question: [text, lines, { req, hint, options, table }]
+  const sections = [
+    ["The Big Picture", "→ everything", "Don't ask what the site should achieve. These get at it through things he already knows.", [
+      ["When would you send someone to your website? Check all", 0, { req: true, options: [
+        "Referrals check me out", "Clients ask for one", "Show past work",
+        "Send job details", "Look established", "Show the team",
+        "Not sure", "Other ______",
+      ] }],
+      ["After looking at the site, what should someone think? Pick 2", 0, { req: true, options: [
+        "Trust them w/ pricey art", "Knows the art world", "Detail-obsessed",
+        "Discreet", "Polished + high-end", "Personal, not corporate",
+      ] }],
+      ["Right now, how do most new jobs find you?", 0, { req: true, options: [
+        "Word of mouth", "Galleries refer me", "Designers refer me",
+        "Repeat clients", "Instagram", "Google",
+        "Not sure", "Other ______",
+      ] }],
+      ["What's a kind of job you'd be happy never to take again?", 2, { hint: "tells us who the site should steer away" }],
+    ]],
+
+    ["What You Do", "→ home page", "The first thing visitors read.", [
+      ["You meet someone at a party and they ask what you do. What do you say?", 2, { req: true }],
+      ["Who hires you the most? Circle the top 3", 0, { req: true, options: [
+        "Private collectors", "Galleries", "Museums",
+        "Interior designers", "Art advisors", "Offices / hotels",
+        "Artists", "People moving", "Other ______",
+      ] }],
+      ["What are you known for?", 3, { req: true, hint: "what clients and galleries bring up about you: careful, fast, takes the weird jobs…" }],
+      ["Ballpark: years doing this? Jobs done? Pieces handled?", 1, { hint: "rough guesses are fine" }],
+    ]],
+
+    ["Services", "→ services pages", "Each service he checks can get its own page, which helps people find him on Google.", [
+      ["Check everything you do", 0, { req: true, options: [
+        "Hang art in homes", "Gallery / salon walls", "Sculpture + pedestals",
+        "Big installs", "Theft-proof hanging", "Earthquake-safe hanging",
+        "Help pick placement", "Art lighting", "Swap art seasonally",
+        "Take art down", "Wrap + pack", "Build crates",
+        "Local delivery", "Long-distance", "Climate-controlled storage",
+        "Document condition", "Catalog collections", "Help with moves",
+      ] }],
+      ["Circle the 3 you like doing most, or that pay best", 0, { req: true, hint: "these get featured" }],
+      ["Pick a job you do a lot. What happens, start to finish?", 5],
+      ["What do you turn down?", 2, { hint: "too heavy, too far, outdoors, certain materials" }],
+      ["What do you drive? What gear do you have?", 2, { hint: "van, truck, lifts, dollies, special tools" }],
+      ["Any materials or tricks you use that others might not?", 2],
+      ["Storage: what's it like?", 1, { options: [
+        "Climate-controlled", "Locked / secure", "Insured while stored",
+        "Short-term", "Long-term", "Other ______",
+      ], hint: "where + how big" }],
+    ]],
+
+    ["How a Job Works", "→ how it works", "Clients are handing over something valuable. Showing the steps puts them at ease.", [
+      ["Tell me about your last job, from the first call to driving away", 4, { req: true }],
+      ["Do you go look at the space before quoting?", 0, { options: [
+        "Always", "Only big jobs", "Never", "It's free", "I charge for it",
+      ] }],
+      ["Do you photograph pieces before moving them?", 0, { options: ["Always", "Sometimes", "No"] }],
+      ["What do you wish clients handled before you arrive?", 0, { options: [
+        "Decide where art goes", "Clear the walls", "Move furniture",
+        "Book elevator / dock", "Sort out parking", "Building paperwork",
+        "Pets out of the way", "Have the art in one spot", "Other ______",
+      ] }],
+      ["How far ahead do people usually book you?", 0, { options: [
+        "Same week", "1–2 weeks", "A month+", "Varies",
+      ] }],
+      ["Do you take rush, weekend, or late-night jobs?", 0, { options: [
+        "Rush", "Weekends", "Nights", "Emergencies", "None",
+      ] }],
+    ]],
+
+    ["Trust", "→ badges + about", "In this industry, credibility decides whether someone lets you touch their art.", [
+      ["Is the business insured?", 0, { req: true, options: ["Yes", "No", "Not sure"], hint: "if unsure, check paperwork later" }],
+      ["Has a building or client ever asked for proof of insurance?", 0, { options: ["Yes, often", "Once or twice", "Never"] }],
+      ["Is the business officially registered, like an LLC?", 0, { options: ["Yes", "No", "Not sure"] }],
+      ["Any past jobs, training, or places you've worked that would impress people?", 3, { hint: "museums, galleries, other art companies" }],
+      ["How do you keep collectors' info and art private?", 2, { req: true }],
+      ["Are you allowed to post photos of client work?", 0, { req: true, options: [
+        "Usually yes", "Only if I ask", "Never", "Haven't thought about it",
+      ] }],
+    ]],
+
+    ["Team", "→ about / team page", "Three people. Real faces and stories make a small business feel trustworthy.", [
+      ["How did the business start?", 3, { req: true }],
+      ["Each person", 0, { req: true, table: {
+        cols: ["", "Owner", "Team 2", "Team 3"],
+        rows: [
+          ["Name", ""], ["Job title", ""], ["How they got into this", "tall"],
+          ["What they're best at", ""], ["Years doing it", ""], ["Artist? Hobbies?", "tall"],
+          ["OK with photo on site?", ""],
+        ],
+      } }],
+      ["What's the crew like to work with?", 2],
+    ]],
+
+    ["Past Work", "→ portfolio", "For small firms the portfolio does most of the selling. Pick quality over quantity.", [
+      ["Your favorite 5–8 jobs", 0, { req: true, table: {
+        cols: ["Job", "For who", "Why tricky or cool", "OK to name?"],
+        rowsCount: 8,
+      } }],
+      ["Any famous artists, places, or clients you're allowed to mention?", 2],
+      ["Mostly homes or mostly businesses?", 0, { options: ["Mostly homes", "Mostly businesses", "About half"] }],
+    ]],
+
+    ["Clients + Referrals", "→ reviews", "One sentence from a real designer or gallery beats ten anonymous star ratings.", [
+      ["3 happy clients who'd write a sentence about you", 0, { req: true, table: {
+        cols: ["Name", "Who they are", "How you know them"],
+        rowsCount: 3,
+      } }],
+      ["Any online reviews?", 0, { options: ["Google", "Yelp", "Houzz", "Thumbtack", "None", "Not sure"] }],
+      ["Who sends you the most work?", 2, { hint: "designers, framers, galleries, movers" }],
+    ]],
+
+    ["Money + Rules", "→ FAQ + quote page", "No prices on the site. Quotes happen on the phone. This is for the FAQ.", [
+      ["How do you usually charge?", 0, { hint: "stays off the site, just for the FAQ wording", options: [
+        "By the hour", "By the job", "By the day",
+        "Minimum charge", "Travel fee", "Other ______",
+      ] }],
+      ["Deposits? Cancellations? How do people pay you?", 2],
+      ["Where will you go for work? What's too far?", 2, { req: true, hint: "towns and neighborhoods" }],
+      ["What do people always ask on the first call?", 4, { req: true, hint: "each one becomes a FAQ answer" }],
+    ]],
+
+    ["Getting in Touch", "→ contact page", "Short forms get filled out. Only ask what he needs to give a price.", [
+      ["When someone wants a price, what do you need to know?", 0, { req: true, options: [
+        "How many pieces", "Sizes / weight", "Photos of pieces",
+        "Pickup address", "Drop-off address", "Wall type",
+        "When they want it", "Stairs / elevator", "Who referred them",
+      ] }],
+      ["How do you like people to reach you?", 0, { options: ["Call", "Text", "Email", "Website form"] }],
+      ["Phone + email to put on the site", 1, { req: true }],
+      ["How fast do you usually get back to people?", 1],
+    ]],
+
+    ["Behind the Scenes", "→ owner dashboard", "Private login: every request in one place, plus a shared crew calendar. Built after the public site.", [
+      ["Where do job requests live right now?", 0, { options: [
+        "Texts", "Email", "Notebook",
+        "Spreadsheet", "In my head", "Other ______",
+      ] }],
+      ["When you log in, what do you want to see first?", 0, { options: [
+        "New requests", "This week's jobs", "Who to call back",
+        "Pending quotes", "Who's available", "Other ______",
+      ] }],
+      ["How do you schedule the crew now?", 0, { options: [
+        "Texts", "Group chat", "Calendar app", "Paper", "In my head", "Other ______",
+      ] }],
+      ["When one of your guys can't work a day, how do you find out?", 0, { hint: "the calendar will let them mark it themselves", options: [
+        "They text me", "They call", "Group chat",
+        "Last minute, usually", "Other ______",
+      ] }],
+    ]],
+
+    ["Online Stuff", "→ footer + search", "Quick yes/no. \"Not sure\" is fine, and I'll handle the setup.", [
+      ["Business name, exactly how it's written on cards or invoices", 1, { req: true }],
+      ["Do you already own a website address, like mckelveyart.com?", 0, { req: true, options: ["Yes: ______", "No", "Not sure"] }],
+      ["Is there an email just for the business?", 0, { options: ["Yes", "No, I use personal"] }],
+      ["Does the business show up on Google Maps?", 0, { options: ["Yes", "No", "Not sure"] }],
+      ["Instagram or other accounts?", 1],
+      ["Any websites you like the look of? Don't have to be art", 2],
+    ]],
+  ];
+
+  const handoff = [
+    ["Brand", [
+      ["Logo, original file", ".svg / .ai / .eps / .pdf, not a screenshot. Plus any variations: black, white, icon-only"],
+      ["Brand colors + fonts", "if they exist, or business card / letterhead to match"],
+    ]],
+    ["People", [
+      ["Headshots: owner + 2 team", "high-res, similar background and light so they match. If none exist, plan a shoot"],
+      ["Candid team photos", "working, wrapping, hanging, loading the van"],
+    ]],
+    ["Project Media", [
+      ["15–30 project photos", "originals at full resolution, not Instagram downloads"],
+      ["Mix of shots", "finished room (wide) · detail · in-progress · before/after pairs"],
+      ["Behind-the-scenes", "crates, packing, vehicle, tools, storage/shop"],
+      ["Short video clips", "10–30s, phone is fine"],
+      ["Caption for each", "project, location (general), what was done, OK to publish Y/N"],
+    ]],
+    ["Words", [
+      ["Testimonials", "exact quote + name + title + permission"],
+      ["Nameable clients / institutions", "and whether their logos can be shown"],
+    ]],
+    ["Business", [
+      ["Insurance details", "types and whether limits can be listed. Not the policy itself"],
+      ["Existing terms / contract", "if he has one, it feeds the FAQ and policies"],
+      ["Account access", "domain registrar, Google Business, socials. He logs in himself; no passwords on paper"],
+    ]],
+  ];
+
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  };
+  const pad = (n) => String(n).padStart(2, "0");
+  const heading = (num, title, feeds) => {
+    const h = el("h2");
+    h.append(el("span", "n", pad(num)), title);
+    if (feeds) h.append(el("span", "feeds", feeds));
+    return h;
+  };
+
+  const buildTable = ({ cols, rows, rowsCount }) => {
+    const t = el("table");
+    const hr = el("tr");
+    cols.forEach((c) => hr.append(el("th", null, c)));
+    t.append(hr);
+    const bodyRows = rows ?? Array.from({ length: rowsCount }, () => ["", ""]);
+    for (const [label, cls] of bodyRows) {
+      const tr = el("tr");
+      cols.forEach((_, i) => tr.append(el("td", cls || null, i === 0 ? label : "")));
+      t.append(tr);
+    }
+    return t;
+  };
+
+  const root = document.getElementById("worksheet");
+  sections.forEach(([title, feeds, intro, questions], si) => {
+    const sec = el("section");
+    // Heading, intro and first question stay on the same page
+    const top = el("div");
+    top.style.breakInside = "avoid";
+    top.append(heading(si + 1, title, feeds), el("p", "intro", intro));
+    sec.append(top);
+    questions.forEach(([text, lines, opts = {}], qi) => {
+      const q = el("div", "q");
+      q.append(el("span", "id", `${si + 1}.${qi + 1}`));
+      const label = el("span", opts.req ? "req" : null, text);
+      if (opts.hint) label.append(" ", el("span", "hint", `— ${opts.hint}`));
+      q.append(label);
+      if (opts.options) {
+        const grid = el("div", "options");
+        for (const o of opts.options) grid.append(el("span", null, o));
+        q.append(grid);
+      }
+      if (opts.table) q.append(buildTable(opts.table));
+      if (lines) {
+        const space = el("div", "space");
+        space.style.height = `${lines * 24}px`;
+        q.append(space);
+      }
+      (qi === 0 ? top : sec).append(q);
+    });
+    root.append(sec);
+  });
+
+  // Hand-off list on its own page
+  const n = sections.length + 1;
+  const ho = el("section", "handoff");
+  ho.append(heading(n, "Hand-off List", "what I need from him"));
+  ho.append(el("p", "intro", "Collect these after the meeting. Nothing gets built without real material."));
+  handoff.forEach(([group, items]) => {
+    const g = el("section");
+    g.style.marginTop = "12px";
+    const gh = el("h2");
+    gh.style.borderBottomWidth = "0.5px";
+    gh.append(group);
+    g.append(gh);
+    for (const [what, spec] of items) {
+      const it = el("div", "item");
+      it.append(el("span", "box"));
+      const txt = el("span", null, what);
+      txt.append(" ", el("span", "spec", `— ${spec}`));
+      it.append(txt);
+      g.append(it);
+    }
+    ho.append(g);
+  });
+  const notes = el("section");
+  notes.append(heading(n + 1, "Notes / Sketch"), el("div", "notes"));
+  ho.append(notes);
+  root.append(ho);
+</script>
+</body>
+</html>
